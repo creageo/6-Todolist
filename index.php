@@ -15,9 +15,9 @@ function pr($array){
 		$stockjsondecode = json_decode($tacheencode);
 		//pr($stockjsondecode);
 		for ($i=0; $i < count($stockjsondecode) ; $i++) { 
-			//echo $stockjsondecode[$i]->afaire;
+		//echo $stockjsondecode[$i]->afaire;
 		}
-	}
+	
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,26 +28,34 @@ function pr($array){
 <body>
 
 	<section>
-		<h2>a faire</h2>
 		<form>
+
 		<?php
-			foreach ($stockjsondecode as $key => $objets) {
-				echo $objets -> afaire;
-			
-			// ajoute les taches step by step
-			/*for ($i=0; $i < count($stockjsondecode); $i++):
-				$listetache = */
-		?>
-			<label for="tacheafaire">
-			<input type="checkbox" name="tacheafaire" id="tacheafaire">
-			</label>
-			<br>
-		<?php
-			//endfor;
 			}
+		?>
+		<?php
+
+			$file = 'todo.json';
+			$open_file = file_get_contents($file);
+
+			$open_file = json_decode($open_file);
+
+			foreach ($open_file as $key => $objets) {
+
+			?>
+			<label for="tacheafaire"><?php echo $objets -> afaire; ?></label>
+			<input type="checkbox" name="tacheafaire" id="tacheafaire">
+			<br>
+			<?php
+			}
+
 		?>
 			<input type="submit" name="save" value="enregistrer">
 		</form>
+	</section>
+
+	<section>
+		
 	</section>
 
 	<form action="" method="POST">
