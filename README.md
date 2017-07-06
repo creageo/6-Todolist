@@ -6,7 +6,7 @@ outil utilisé : sublimetext apache 000webhost
 
 complément : https://ex3bege.000webhostapp.com/
 
-code valide : oui
+code valide : non
 
 non-voyants : oui
 
