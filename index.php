@@ -1,61 +1,142 @@
 <?php
 
-function pr($array){
-	echo '<pre>';
-	print_r($array);
-	echo '</pre>';
-}
+//si l'utilisateur click sur submit
+if(isset($_POST['submit'])){
 
-//si i a bien submit dans post
-if (isset($_POST['submit'])) {
-//on recupere le code de ecriredansjson.php
-include "ecriredansjson.php";
-//on recupere $open_file = $file; de ecriredansjson.php
-$stockjsondecode = json_decode($tacheencode);
-//pr($stockjsondecode);
-for ($i=0; $i < count($stockjsondecode) ; $i++) { 
-//echo $stockjsondecode[$i]->afaire;
+	//sanitization de la tache
+	$tachesani = filter_var($_POST['tache'], FILTER_SANITIZE_STRING);
+
+	//validation de la tache
+	if(!empty($tachesani)){
+
+		//dans un tableau je la tache a faire et par defaut elle n'est pas faites
+		$tableautacheafaire = array(
+
+			"afaire" => $tachesani,
+			"faite" => false,
+
+		);
+
+		//rechercher le contenu
+		$file = 'todo.json';
+
+		//obtenir le contenu du fichier $file
+		$open_file = file_get_contents($file);
+
+		//transformer le json en array
+		$open_file = json_decode($open_file, true);
+
+		//mettre tache a faire dans l'array
+		array_push($open_file, $tableautacheafaire);
+
+		//transforme array en code json
+		$tacheencode = json_encode($open_file, JSON_PRETTY_PRINT);
+
+		//mettre dans json
+		file_put_contents($file, $tacheencode);
+
+	} else{
+
+		echo "veiller remplir le formulaire";
+
+	}
+
 }
 	
 ?>
+
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
+
 <head>
+
 	<meta charset="utf-8">
-	<title>liste de tache</title>
+
+	<title>Todolist JSON</title>
+
 </head>
+
 <body>
+
+	<h1>Todolist JSON</h1>
+
 	<section>
-		<form>
+
+		<h2>A faire :</h2>
+
+		<form action="" method="POST">
+
 		<?php
-			}
-		?>
-		<?php
+
+			//rechercher le contenu
 			$file = 'todo.json';
+
+			//obtenir le contenu du fichier $file
 			$open_file = file_get_contents($file);
+
+			//transformer le json en array
 			$open_file = json_decode($open_file);
-			foreach ($open_file as $key => $objets) {
-			?>
-			<label for="<?php echo $key ?>"><?php echo $objets -> afaire; ?></label>
-			<input type="checkbox" name="tacheafaire" id="<?php echo $key ?>">
+
+			foreach($open_file as $key => $objets){
+
+		?>
+
+			<label for="<?php echo $key; ?>"><?php echo $objets->afaire; ?></label>
+
+			<input type="checkbox" name="tacheafaire[]" value="<?php echo $objets->afaire; ?>" id="<?php echo $key; ?>">
+
 			<br>
-			<?php
-			}
-		?>
-			<input type="submit" name="save" value="enregistrer">
-		</form>
-	</section>
-	<section>
+
 		<?php
-			if (isset($_POST['save'])) {
-				
+
 			}
+
 		?>
+			<br>
+
+			<input type="submit" name="save" class="save" value="save">
+
+		</form>
+
 	</section>
-	<form action="" method="POST">
-		<input type="text" name="tache" class="tache">
+
+	<section>
+
+		<h2>Archive :</h2>
+
+		<form action="" method="POST">
+
+		<?php
+
+			foreach($_POST['tacheafaire'] as $chkbx){
+
+		?>
+
+			<label for="<?php echo $chkbx; ?>"><?php echo $chkbx; ?></label>
+
+			<input type="checkbox" name="tachefait" value="<?php echo $chkbx; ?>" id="<?php echo $chkbx ?>">
+
+			<br>
+
+		<?php
+
+				}
+
+		?>
+
 		<br>
-		<input type="submit" name="submit" class="submit">
-	</form>
+
+		<input type="text" name="tache" class="tache">
+
+		<br><br>
+
+		<input type="submit" name="submit" class="submit" value="submit">
+
+		</form>
+
+	</section>
+
 </body>
+
 </html>

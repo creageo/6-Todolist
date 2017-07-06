@@ -1,13 +1,19 @@
 # 6-Todolist
 
-code utilisé :
+code utilisé : html php json
 
-outil utilisé :
+outil utilisé : sublimetext apache 000webhost
 
-complément :
+complément : https://ex3bege.000webhostapp.com/
 
-validé :
+code valide : oui
 
-responsive :
+non-voyants : oui
 
-sanitizé :
+sanitizé et validé : oui
+
+responsive : non
+
+exercice : https://github.com/becodeorg/BXLCentral/tree/master/Projects/5-Todolist
+
+mon évaluation sur 10 : 4/10
